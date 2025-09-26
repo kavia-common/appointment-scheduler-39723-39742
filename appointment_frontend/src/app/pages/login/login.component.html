@@ -1,0 +1,32 @@
+<div class="container-card login">
+  <h2 class="title">Sign in</h2>
+  <form (submit)="$event.preventDefault(); submit()" [formGroup]="form" class="form">
+    <div class="form-row">
+      <div>
+        <label for="email">Email</label>
+        <input id="email" class="input" type="email" formControlName="email" placeholder="you@example.com" aria-describedby="email-help">
+        <small id="email-help" class="help" *ngIf="email?.touched && email?.invalid">
+          <span *ngIf="email?.errors?.['required']">Email is required.</span>
+          <span *ngIf="email?.errors?.['email']">Enter a valid email.</span>
+        </small>
+      </div>
+    </div>
+    <div class="form-row">
+      <div>
+        <label for="password">Password</label>
+        <input id="password" class="input" type="password" formControlName="password" placeholder="Your password" aria-describedby="password-help" minlength="6">
+        <small id="password-help" class="help" *ngIf="password?.touched && password?.invalid">
+          <span *ngIf="password?.errors?.['required']">Password is required.</span>
+          <span *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters.</span>
+        </small>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" type="submit" [disabled]="submitting()">Sign in</button>
+      <span class="demo-creds">Demo: user&#64;example.com / Password123</span>
+    </div>
+
+    <div class="alert error" *ngIf="error()">{{ error() }}</div>
+  </form>
+</div>
