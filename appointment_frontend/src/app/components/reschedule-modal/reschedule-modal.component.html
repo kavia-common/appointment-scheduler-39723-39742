@@ -1,0 +1,50 @@
+<div class="overlay" *ngIf="open" (click)="close()" aria-label="Close reschedule modal"></div>
+
+<div class="modal container-card" *ngIf="open" role="dialog" aria-modal="true" aria-labelledby="reschedule-title">
+  <div class="modal-header">
+    <div class="header-icon">🗓️</div>
+    <div class="header-text">
+      <h3 id="reschedule-title">Reschedule Appointment</h3>
+      <p class="sub">Choose a new date and time for {{ appointment?.name }} ({{ appointment?.email }})</p>
+    </div>
+    <button class="icon-btn" (click)="close()" aria-label="Close">✕</button>
+  </div>
+
+  <div class="modal-body">
+    <div class="grid">
+      <section class="left">
+        <app-calendar
+          [selectedDate]="selectedDate"
+          (selectedDateChange)="onDateChange($event)"></app-calendar>
+      </section>
+
+      <section class="right">
+        <div class="field-group">
+          <label for="date">Date</label>
+          <input id="date" class="input" type="date" [ngModel]="selectedDate" (ngModelChange)="onDateChange($event)" name="date">
+        </div>
+
+        <div class="field-group">
+          <label for="time">Available times</label>
+          <select id="time" class="input" [(ngModel)]="selectedTime" name="time" [disabled]="!selectedDate || times().length===0">
+            <option value="" disabled [selected]="!selectedTime">Select time</option>
+            <option *ngFor="let t of times()" [value]="t">{{ t }}</option>
+          </select>
+          <small class="helper" *ngIf="selectedDate && times().length===0">No times available for this date.</small>
+          <small class="helper" *ngIf="!selectedDate">Pick a date to see available times.</small>
+        </div>
+
+        <div class="status" *ngIf="loading">
+          <span class="spinner" aria-hidden="true"></span>
+          Checking availability...
+        </div>
+        <div class="alert error" *ngIf="error">{{ error }}</div>
+      </section>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn" (click)="close()">Cancel</button>
+    <button class="btn btn-primary" (click)="confirm()" [disabled]="!selectedDate || !selectedTime">Confirm Change</button>
+  </div>
+</div>

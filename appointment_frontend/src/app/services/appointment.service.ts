@@ -64,7 +64,9 @@ export class AppointmentService {
 
   // PUBLIC_INTERFACE
   cancel(id: string): boolean {
-    /** Cancels an appointment and frees the slot. */
+    /** Cancels an appointment and frees the slot. 
+     * Note: Until dedicated reschedule API exists, UI composes reschedule as cancel + book.
+     */
     const current = this.appointments();
     const appt = current.find((a: Appointment) => a.id === id);
     if (!appt) return false;

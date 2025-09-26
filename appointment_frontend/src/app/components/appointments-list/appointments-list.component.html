@@ -11,7 +11,17 @@
         <span class="name">{{ a.name }}</span>
         <span class="email">{{ a.email }}</span>
       </div>
-      <button class="cancel" (click)="cancel(a.id)">Cancel</button>
+      <div class="actions">
+        <button class="reschedule" (click)="openReschedule(a)">Reschedule</button>
+        <button class="cancel" (click)="cancel(a.id)">Cancel</button>
+      </div>
     </li>
   </ul>
+
+  <app-reschedule-modal
+    [open]="rescheduleOpen"
+    [appointment]="activeAppointment"
+    (closed)="closeReschedule()"
+    (confirmed)="onRescheduleConfirmed($event)">
+  </app-reschedule-modal>
 </div>

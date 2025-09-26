@@ -34,6 +34,10 @@ li {
   gap: 0.6rem;
   flex-wrap: wrap;
 }
+.actions {
+  display: inline-flex;
+  gap: 0.4rem;
+}
 .time {
   color: #0b1f51;
 }
@@ -52,3 +56,15 @@ li {
   transition: transform 0.15s ease;
 }
 .cancel:hover { transform: translateY(-1px); }
+
+.reschedule {
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(135deg, #2563EB, #3b82f6);
+  box-shadow: 0 8px 18px rgba(37,99,235,0.30);
+  transition: transform 0.15s ease;
+}
+.reschedule:hover { transform: translateY(-1px); }
