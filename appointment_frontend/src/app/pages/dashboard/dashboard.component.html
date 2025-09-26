@@ -1,0 +1,10 @@
+<div class="grid">
+  <section class="left">
+    <app-calendar [selectedDate]="selectedDate"
+                  (selectedDateChange)="onDateChange($event)"></app-calendar>
+  </section>
+  <section class="right">
+    <app-booking-form [date]="selectedDate"></app-booking-form>
+    <app-availability-list></app-availability-list>
+  </section>
+</div>

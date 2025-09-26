@@ -1,0 +1,9 @@
+<div class="grid">
+  <section>
+    <app-calendar [selectedDate]="selectedDate"
+                  (selectedDateChange)="onDateChange($event)"></app-calendar>
+  </section>
+  <section>
+    <app-booking-form [date]="selectedDate"></app-booking-form>
+  </section>
+</div>

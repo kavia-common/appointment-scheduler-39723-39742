@@ -1,0 +1,15 @@
+<div class="container-card avail">
+  <h3 class="title">Availability (Next 14 Days)</h3>
+  <div class="grid">
+    <div class="day" *ngFor="let s of slots()">
+      <div class="head">
+        <strong>{{ s.date }}</strong>
+        <span class="count">{{ s.times.length }} slots</span>
+      </div>
+      <div class="times">
+        <span class="badge" *ngFor="let t of s.times | slice:0:8">{{ t }}</span>
+        <span class="more" *ngIf="s.times.length > 8">+{{ s.times.length - 8 }} more</span>
+      </div>
+    </div>
+  </div>
+</div>

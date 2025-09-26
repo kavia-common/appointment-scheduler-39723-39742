@@ -1,0 +1,26 @@
+<div class="calendar container-card">
+  <div class="cal-header">
+    <button class="nav" (click)="prevMonth()" aria-label="Previous month">‹</button>
+    <h3>{{ title() }}</h3>
+    <button class="nav" (click)="nextMonth()" aria-label="Next month">›</button>
+  </div>
+  <div class="grid">
+    <div class="dow">Sun</div>
+    <div class="dow">Mon</div>
+    <div class="dow">Tue</div>
+    <div class="dow">Wed</div>
+    <div class="dow">Thu</div>
+    <div class="dow">Fri</div>
+    <div class="dow">Sat</div>
+
+    <button
+      *ngFor="let day of days()"
+      class="cell"
+      [class.muted]="!day.inMonth"
+      [class.today]="day.isToday"
+      [class.selected]="selectedDate === day.date"
+      (click)="pick(day)">
+      <span>{{ day.label }}</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="container-card form">
+  <h3 class="title">Book Appointment</h3>
+  <div class="helper" *ngIf="!date">Choose a date from the calendar.</div>
+  <form (submit)="$event.preventDefault(); submit()">
+    <div class="form-row two">
+      <div>
+        <label for="name">Name</label>
+        <input id="name" class="input" [(ngModel)]="name" name="name" placeholder="Your name" required>
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" class="input" type="email" [(ngModel)]="email" name="email" placeholder="you@example.com" required>
+      </div>
+    </div>
+    <div class="form-row two">
+      <div>
+        <label for="date">Date</label>
+        <input id="date" class="input" type="date" [ngModel]="date" name="date" (ngModelChange)="date = $event" required>
+      </div>
+      <div>
+        <label for="time">Time</label>
+        <select id="time" class="input" [(ngModel)]="time" name="time" [disabled]="!date || times().length===0" required>
+          <option value="" disabled selected>Select time</option>
+          <option *ngFor="let t of times()" [value]="t">{{ t }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div>
+        <label for="notes">Notes</label>
+        <textarea id="notes" class="input" rows="3" [(ngModel)]="notes" name="notes" placeholder="Optional notes"></textarea>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" type="submit" [disabled]="submitting || !date">Confirm Booking</button>
+    </div>
+
+    <div class="alert success" *ngIf="success">{{ success }}</div>
+    <div class="alert error" *ngIf="error">{{ error }}</div>
+  </form>
+</div>

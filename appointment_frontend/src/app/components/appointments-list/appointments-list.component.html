@@ -1,0 +1,17 @@
+<div class="container-card list">
+  <h3 class="title">My Appointments</h3>
+  <div *ngIf="items().length === 0" class="empty">
+    No appointments yet.
+  </div>
+  <ul *ngIf="items().length > 0">
+    <li *ngFor="let a of items()">
+      <div class="info">
+        <strong>{{ a.date }}</strong>
+        <span class="time">{{ a.time }}</span>
+        <span class="name">{{ a.name }}</span>
+        <span class="email">{{ a.email }}</span>
+      </div>
+      <button class="cancel" (click)="cancel(a.id)">Cancel</button>
+    </li>
+  </ul>
+</div>
