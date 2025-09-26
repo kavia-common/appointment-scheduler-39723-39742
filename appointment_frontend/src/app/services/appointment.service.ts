@@ -80,6 +80,52 @@ export class AppointmentService {
     return true;
   }
 
+  // PUBLIC_INTERFACE
+  reschedule(id: string, newDate: string, newTime: string): boolean {
+    /** Reschedules an appointment to a new date/time if the slot is available.
+     * - Validates new slot availability
+     * - Returns old slot to availability
+     * - Updates appointment
+     * - Removes new slot from availability
+     */
+    const list = this.appointments();
+    const index = list.findIndex((a: Appointment) => a.id === id);
+    if (index === -1) return false;
+
+    const appt = list[index];
+
+    // Validate requested slot is available
+    const availForNew = this.getAvailabilityByDate(newDate);
+    if (!availForNew || !availForNew.times.includes(newTime)) {
+      return false;
+    }
+
+    // 1) Return old slot back
+    const withOldBack = this.availability().map((s: AvailabilitySlot) => {
+      if (s.date === appt.date && !s.times.includes(appt.time)) {
+        return { ...s, times: [...s.times, appt.time].sort() };
+      }
+      return s;
+    });
+
+    // 2) Remove new slot from availability
+    const withNewRemoved = withOldBack.map((s: AvailabilitySlot) => {
+      if (s.date === newDate) {
+        return { ...s, times: s.times.filter((t: string) => t !== newTime) };
+      }
+      return s;
+    });
+    this.availability.set(withNewRemoved);
+
+    // 3) Update appointment entry
+    const updated: Appointment = { ...appt, date: newDate, time: newTime };
+    const nextList = [...list];
+    nextList[index] = updated;
+    this.appointments.set(nextList);
+
+    return true;
+  }
+
   private generateAvailability(): AvailabilitySlot[] {
     const out: AvailabilitySlot[] = [];
     const today = new Date();

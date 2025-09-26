@@ -4,14 +4,41 @@
     No appointments yet.
   </div>
   <ul *ngIf="items().length > 0">
-    <li *ngFor="let a of items()">
-      <div class="info">
-        <strong>{{ a.date }}</strong>
-        <span class="time">{{ a.time }}</span>
-        <span class="name">{{ a.name }}</span>
-        <span class="email">{{ a.email }}</span>
+    <li *ngFor="let a of items()" style="flex-direction: column; align-items: stretch; gap:0.5rem;">
+      <div class="row" style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem;">
+        <div class="info">
+          <strong>{{ a.date }}</strong>
+          <span class="time">{{ a.time }}</span>
+          <span class="name">{{ a.name }}</span>
+          <span class="email">{{ a.email }}</span>
+        </div>
+        <div class="actions" style="display:flex; gap:0.35rem;">
+          <button class="cancel" (click)="toggleReschedule(a.id)">{{ reschedulingId === a.id ? 'Close' : 'Reschedule' }}</button>
+          <button class="cancel" (click)="cancel(a.id)">Cancel</button>
+        </div>
       </div>
-      <button class="cancel" (click)="cancel(a.id)">Cancel</button>
+
+      <div *ngIf="reschedulingId === a.id" style="display:flex; flex-direction:column; gap:0.5rem;">
+        <div style="display:grid; gap:0.5rem; grid-template-columns: 1fr 1fr;">
+          <div>
+            <label for="res-date-{{a.id}}">New Date</label>
+            <input id="res-date-{{a.id}}" class="input" type="date" [(ngModel)]="rescheduleDate">
+          </div>
+          <div>
+            <label for="res-time-{{a.id}}">New Time</label>
+            <select id="res-time-{{a.id}}" class="input" [(ngModel)]="rescheduleTime" [disabled]="!rescheduleDate || rescheduleTimes().length===0">
+              <option value="" disabled>Select time</option>
+              <option *ngFor="let t of rescheduleTimes()" [value]="t">{{ t }}</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-primary" (click)="applyReschedule(a.id)">Apply</button>
+          <button class="btn" (click)="toggleReschedule(null)">Cancel</button>
+        </div>
+        <div class="alert success" *ngIf="rescheduleSuccess">{{ rescheduleSuccess }}</div>
+        <div class="alert error" *ngIf="rescheduleError">{{ rescheduleError }}</div>
+      </div>
     </li>
   </ul>
 </div>
